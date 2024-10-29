@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-nplusapi-conf
+data:
+  NplusApi.conf: |
+    js_import /usr/share/nginx-plus-module-prometheus/prometheus.js;
+    
+    server {
+      listen 8080;
+    
+      location /api {
+        api write=on;
+        # directives limiting access to the API
+    }
+      location = /dashboard.html {
+         root   /usr/share/nginx/html;
+      }
+      # Redirect requests made to the pre-NGINX Plus API dashboard
+      location = /status.html {
+        return 301 /dashboard.html;
+      }
+    
+      location = /metrics {
+            js_content prometheus.metrics;
+      }
+    
+    }
