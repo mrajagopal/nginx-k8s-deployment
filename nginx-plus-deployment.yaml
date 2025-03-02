@@ -13,9 +13,15 @@ spec:
         app: nginx-plus
     spec:
       containers:
-      - name: mynginxplus
-        image: docker.io/library/mr-nplus:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 80
-
+        - name: mynginxplus
+          image: docker.io/library/mr-nplus:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 80
